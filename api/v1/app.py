@@ -4,11 +4,10 @@ App initialzation
 """
 from flask import Flask, make_response, jsonify
 from models import storage
+from api.v1.views import app_views
 
 
 app = Flask(__name__)
-
-from api.v1.views import app_views
 app.register_blueprint(app_views)
 
 
