@@ -23,11 +23,11 @@ def status():
 def stats():
     """Retrieves the number of each objects by type"""
     objs_by_type = {
-                "amenities": storage.count(Amenity),
-                "cities": storage.count(City),
-                "places": storage.count(Place),
-                "reviews": storage.count(Review),
-                "states": storage.count(State),
-                "users": storage.count(User)
-            }
+        "amenities": storage.count(Amenity),
+        "cities": storage.count(City),
+        "places": storage.count(Place),
+        "reviews": storage.count(Review),
+        "states": storage.count(State),
+        "users": storage.count(User)
+    }
     return jsonify(objs_by_type)
