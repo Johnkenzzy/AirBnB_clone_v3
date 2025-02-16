@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """Definew app_views blueprint"""
 from flask import Blueprint
 
