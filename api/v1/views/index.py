@@ -13,13 +13,13 @@ from models.amenity import Amenity
 from models.review import Review
 
 
-@app_views.route('/status')
+@app_views.route('/status', strict_slashes=False)
 def status():
     """Returns the status of the api"""
     return jsonify({"status": "OK"})
 
 
-@app_views.route('/stats')
+@app_views.route('/stats', strict_slashes=False)
 def stats():
     """Retrieves the number of each objects by type"""
     objs_by_type = {

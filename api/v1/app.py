@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-App initialzation
+App initialzation and set up
 """
 from flask import Flask, make_response, jsonify
 from models import storage
