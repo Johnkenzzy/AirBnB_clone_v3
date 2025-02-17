@@ -74,6 +74,5 @@ def put_city(city_id):
     for key, value in data.items():
         if key not in skip:
             setattr(city, key, value)
-    city.updated_at = datetime.utcnow()
-    storage.save()
+    city.save()
     return make_response(jsonify(city.to_dict()), 200)
