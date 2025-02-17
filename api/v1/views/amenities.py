@@ -65,7 +65,7 @@ def put_amenity(amenity_id):
     skip = ['id', 'created_at', 'updated_at']
     for key, value in data.items():
         if key not in skip:
-            setattr(Amenity, key, value)
+            setattr(amenity, key, value)
     amenity.updated_at = datetime.utcnow()
     storage.save()
     return make_response(jsonify(amenity.to_dict()), 200)
