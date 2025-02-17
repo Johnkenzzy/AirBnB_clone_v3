@@ -70,7 +70,7 @@ def put_city(city_id):
     if data is None:
         return jsonify({"error": "Not a JSON"}), 400
 
-    skip = ['id', 'created_at', 'updated_at']
+    skip = ['id', 'state_id', 'created_at', 'updated_at']
     for key, value in data.items():
         if key not in skip:
             setattr(city, key, value)
