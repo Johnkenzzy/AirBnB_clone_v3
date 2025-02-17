@@ -13,10 +13,12 @@ from datetime import datetime
 def get_cities(state_id):
     """Retrieve the list of all city objects of a state"""
     cities = storage.all(City).values()
-    if cities is None:
-        abort(404)
-    cities_list = [
+    cities_list = []
+    if cities:
+        cities_list = [
             city.to_dict() for city in cities if city.state_id == state_id]
+    if cities_list is None:
+        abort(404)
     return jsonify(cities_list)
 
 
