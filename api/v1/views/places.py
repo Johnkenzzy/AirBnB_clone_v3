@@ -24,9 +24,9 @@ def get_places(city_id):
 
 
 @app_views.route('/places/<place_id>', methods=['GET'], strict_slashes=False)
-def get_place(city_id):
+def get_place(place_id):
     """Retrieves a place object"""
-    place = storage.get(Places, place_id)
+    place = storage.get(Place, place_id)
     if not place:
         abort(404)
     return jsonify(place.to_dict())
