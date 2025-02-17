@@ -12,6 +12,10 @@ from datetime import datetime
         '/states/<state_id>/cities', methods=['GET'], strict_slashes=False)
 def get_cities(state_id):
     """Retrieve the list of all city objects of a state"""
+    state = storage.get(State, state_id)
+    if state is None:
+        abort(404)
+
     cities = storage.all(City).values()
     cities_list = []
     if cities:

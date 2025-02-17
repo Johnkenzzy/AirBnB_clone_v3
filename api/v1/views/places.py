@@ -13,6 +13,10 @@ from datetime import datetime
         '/cities/<city_id>/places', methods=['GET'], strict_slashes=False)
 def get_places(city_id):
     """Retrieve the list of all place objects of a city"""
+    city = storage.get(City, city_id)
+    if city is None:
+        abort(404)
+
     places = storage.all(Place).values()
     places_list = []
     if places:
@@ -48,7 +52,7 @@ def delete_place(place_id):
         '/cities/<city_id>/places', methods=['POST'], strict_slashes=False)
 def post_place(city_id):
     """Creates a new place object"""
-    city = storage.get(City. city_id)
+    city = storage.get(City, city_id)
     if city is None:
         abort(404)
 
@@ -60,7 +64,7 @@ def post_place(city_id):
     if 'user_id' not in data:
         return jsonify({"error": "Missing user_id"}), 400
 
-    user = storage.get(User, data.user_id)
+    user = storage.get(User, data['user_id'])
     if user is None:
         abort(404)
 
