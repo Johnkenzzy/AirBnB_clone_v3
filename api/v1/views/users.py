@@ -41,8 +41,10 @@ def post_user():
     data = request.get_json(silent=True)
     if data is None:
         return jsonify({"error": "Not a JSON"}), 400
-    if 'name' not in data:
-        return jsonify({"error": "Missing name"}), 400
+    if 'email' not in data:
+        return jsonify({"error": "Missing email"}), 400
+    if 'password' not in data:
+        return jsonify({"error": "Missing password"}), 400
 
     user = User(**data)
     user.save()
