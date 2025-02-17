@@ -11,7 +11,7 @@ from datetime import datetime
 def get_amenities():
     """Retrieve the list of all amenity objects"""
     amenities = storage.all(Amenity).values()
-    amenities_list = [amemity.to_dict() for amenity in amenities]
+    amenities_list = [amenity.to_dict() for amenity in amenities]
     return jsonify(amenities_list)
 
 
