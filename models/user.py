@@ -28,8 +28,8 @@ class User(BaseModel, Base):
     def __init__(self, *args, **kwargs):
         """initializes user"""
         if 'password' in kwargs:
-            kwargs['_password'] = self._hash_password(kwargs['password'])
-            del kwargs['password']
+            kwargs['password'] = self._hash_password(kwargs['password'])
+            # del kwargs['password']
         super().__init__(*args, **kwargs)
 
     @staticmethod
