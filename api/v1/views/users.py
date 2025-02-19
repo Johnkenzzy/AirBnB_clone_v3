@@ -48,6 +48,7 @@ def post_user():
 
     user = User(**data)
     user.save()
+    storage.save()
     return make_response(jsonify(user.to_dict()), 201)
 
 
