@@ -18,6 +18,7 @@ import json
 import os
 import pep8
 import unittest
+from unittest.mock import patch, MagicMock
 DBStorage = db_storage.DBStorage
 classes = {"Amenity": Amenity, "City": City, "Place": Place,
            "Review": Review, "State": State, "User": User}
@@ -86,3 +87,55 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+
+
+class TestDBStorage(unittest.TestCase):
+    def setUp(self):
+        """Set up test environment."""
+        self.storage = DBStorage()
+        self.storage.__session = MagicMock()
+
+    def test_get_existing_object(self):
+        """Test retrieving an existing object."""
+        mock_user = User(id="1234")
+        self.storage.__session.query().filter_by().first.return_value = mock_user
+        result = self.storage.get(User, "1234")
+        self.assertEqual(result, mock_user)
+
+    def test_get_non_existing_object(self):
+        """Test retrieving a non-existing object."""
+        self.storage.__session.query().filter_by().first.return_value = None
+        result = self.storage.get(User, "9999")
+        self.assertIsNone(result)
+
+    def test_get_invalid_class(self):
+        """Test passing an invalid class."""
+        result = self.storage.get(None, "1234")
+        self.assertIsNone(result)
+
+    def test_get_invalid_id(self):
+        """Test passing an invalid ID."""
+        result = self.storage.get(User, None)
+        self.assertIsNone(result)
+
+    def test_count_all_objects(self):
+        """Test counting all objects in storage."""
+        self.storage.__session.query().count.return_value = 10
+        with patch("models.engine.db_storage.classes", {"User": User, "Place": Place}):
+            result = self.storage.count()
+        self.assertEqual(result, 10)
+
+    def test_count_specific_class(self):
+        """Test counting objects of a specific class."""
+        self.storage.__session.query().count.return_value = 5
+        result = self.storage.count(User)
+        self.assertEqual(result, 5)
+
+    def test_count_invalid_class(self):
+        """Test counting with an invalid class."""
+        result = self.storage.count(None)
+        self.assertEqual(result, 0)
+
+if __name__ == "__main__":
+    unittest.main()
+

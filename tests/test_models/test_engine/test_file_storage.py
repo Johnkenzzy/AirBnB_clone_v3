@@ -113,3 +113,56 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+
+class TestFileStorage(unittest.TestCase):
+    def setUp(self):
+        """Set up test environment"""
+        self.storage = FileStorage()
+        self.user1 = User(id="123", email="user1@example.com")
+        self.user2 = User(id="456", email="user2@example.com")
+        self.storage._FileStorage__objects = {
+            "User.123": self.user1,
+            "User.456": self.user2
+        }
+
+    def tearDown(self):
+        """Clean up test environment"""
+        self.storage._FileStorage__objects = {}
+
+    def test_get_existing_object(self):
+        """Test retrieval of an existing object"""
+        obj = self.storage.get(User, "123")
+        self.assertEqual(obj, self.user1)
+
+    def test_get_non_existing_object(self):
+        """Test retrieval of a non-existing object"""
+        obj = self.storage.get(User, "999")
+        self.assertIsNone(obj)
+
+    def test_get_with_invalid_class(self):
+        """Test get method with invalid class"""
+        obj = self.storage.get(None, "123")
+        self.assertIsNone(obj)
+
+    def test_get_with_invalid_id(self):
+        """Test get method with invalid id"""
+        obj = self.storage.get(User, None)
+        self.assertIsNone(obj)
+
+    def test_count_all_objects(self):
+        """Test count method for all objects"""
+        self.assertEqual(self.storage.count(), 2)
+
+    def test_count_specific_class(self):
+        """Test count method for a specific class"""
+        self.assertEqual(self.storage.count(User), 2)
+
+    def test_count_no_objects(self):
+        """Test count method when storage is empty"""
+        self.storage._FileStorage__objects = {}
+        self.assertEqual(self.storage.count(), 0)
+
+if __name__ == "__main__":
+    unittest.main()
+
